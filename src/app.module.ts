@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FormulaOneModule } from './formula-one/formula-one.module';
-import { FormulaOneModule } from './formula-one/formula-one.module';
+
 
 @Module({
   imports: [

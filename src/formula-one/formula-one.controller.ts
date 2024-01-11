@@ -1,8 +1,10 @@
 import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
 import { FormulaOneService } from './formula-one.service';
 import { FormulaOne } from './formula-one.model';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('formula-one')
+@ApiTags('Formula One')
 export class FormulaOneController {
   constructor(private readonly formulaOneService: FormulaOneService) {}
 
