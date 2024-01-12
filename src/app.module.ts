@@ -7,7 +7,7 @@ import { FormulaOneModule } from './formula-one/formula-one.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo:27017/nest-crud'),
+    MongooseModule.forRoot('mongodb+srv://aureliendestailleur:4851C2a172@cluster0.r5x9zmf.mongodb.net/FormulaOne?retryWrites=true&w=majority'),
     FormulaOneModule,
   ],
   controllers: [AppController],

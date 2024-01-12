@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, NotFoundException } from '@nestjs/common';
 import { FormulaOneService } from './formula-one.service';
 import { FormulaOne } from './formula-one.model';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -9,27 +9,52 @@ export class FormulaOneController {
   constructor(private readonly formulaOneService: FormulaOneService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all Formula Ones' })
   async getAllFormulaOnes(): Promise<FormulaOne[]> {
-    return this.formulaOneService.getAllFormulaOnes();
+    try {
+      return await this.formulaOneService.getAllFormulaOnes();
+    } catch (error) {
+      throw new NotFoundException('Unable to retrieve Formula Ones.');
+    }
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get Formula One by ID' })
   async getFormulaOneById(@Param('id') id: string): Promise<FormulaOne> {
-    return this.formulaOneService.getFormulaOneById(id);
+    try {
+      return await this.formulaOneService.getFormulaOneById(id);
+    } catch (error) {
+      throw new NotFoundException(`Formula One with ID ${id} not found.`);
+    }
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create Formula One' })
   async createFormulaOne(@Body() formulaOne: FormulaOne): Promise<FormulaOne> {
-    return this.formulaOneService.createFormulaOne(formulaOne);
+    try {
+      return await this.formulaOneService.createFormulaOne(formulaOne);
+    } catch (error) {
+      throw new NotFoundException('Unable to create Formula One.');
+    }
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Update Formula One by ID' })
   async updateFormulaOne(@Param('id') id: string, @Body() updatedFormulaOne: FormulaOne): Promise<FormulaOne> {
-    return this.formulaOneService.updateFormulaOne(id, updatedFormulaOne);
+    try {
+      return await this.formulaOneService.updateFormulaOne(id, updatedFormulaOne);
+    } catch (error) {
+      throw new NotFoundException(`Formula One with ID ${id} not found or unable to update.`);
+    }
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete Formula One by ID' })
   async deleteFormulaOne(@Param('id') id: string): Promise<void> {
-    return this.formulaOneService.deleteFormulaOne(id);
+    try {
+      await this.formulaOneService.deleteFormulaOne(id);
+    } catch (error) {
+      throw new NotFoundException(`Formula One with ID ${id} not found or unable to delete.`);
+    }
   }
 }
