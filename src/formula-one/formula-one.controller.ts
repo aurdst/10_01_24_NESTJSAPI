@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Logger, Delete, Body, Param, NotFoundException } from '@nestjs/common';
 import { FormulaOneService } from './formula-one.service';
 import { FormulaOne } from './formula-one.model';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { LoggerService } from '../logger.service';
 
 @Controller('formula-one')
 @ApiTags('Formula One')
@@ -56,5 +57,23 @@ export class FormulaOneController {
     } catch (error) {
       throw new NotFoundException(`Formula One with ID ${id} not found or unable to delete.`);
     }
+  }
+
+  @Get('swagger')
+  @ApiOperation({ summary: 'Swagger UI' })
+  @ApiResponse({ status: 200, description: 'Swagger UI' })
+  getSwaggerUi() {
+    return { message: 'Swagger UI' };
+  }
+}
+
+@Controller('logger')
+export class ExampleController {
+  constructor(private readonly logger: LoggerService) {}
+
+  @Get()
+  getData() {
+    this.logger.log('This is a log message', 'ExampleController');
+    return 'Data';
   }
 }

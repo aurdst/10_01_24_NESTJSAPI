@@ -25,15 +25,17 @@ export class FormulaOneService {
     }
   }
 
-  async createFormulaOne(formulaOne: FormulaOne): Promise<FormulaOne> {
+  async createFormulaOne(formulaOne: { name: string; team: string; engine: string }): Promise<FormulaOne> {
     try {
-      const newFormulaOne: FormulaOne = { ...formulaOne, id: Date.now().toString() };
+      const newFormulaOne: FormulaOne = { ...formulaOne, id: Date.now().toString(), wins: 0 };
       this.formulaOnes.push(newFormulaOne);
       return Promise.resolve(newFormulaOne);
     } catch (error) {
       throw new NotFoundException('Unable to create Formula One.');
     }
   }
+  
+  
 
   async updateFormulaOne(id: string, updatedFormulaOne: FormulaOne): Promise<FormulaOne> {
     try {
